@@ -19,32 +19,20 @@ public:
 
     void tick() override
     {
-        if (y == world->height - 1) return;
-
-        if (world->inBounds(x, y+1) && world->getElementAtPosition(x, y + 1)->type == ElementType::EMPTY)
+        if (world->inBounds(x, y + 1) && world->getElementAtPosition(x, y + 1)->type != ElementType::SAND)
         {
-            world->setElementAtPosition<Sand>(x, y + 1);
-            world->setElementAtPosition<Empty>(x, y);
-            y++;
-            return;
+            moveAndSwap(x, y + 1);
         }
 
-        if (world->inBounds(x - 1, y + 1) && world->getElementAtPosition(x - 1, y + 1)->type == ElementType::EMPTY)
+        else if (world->inBounds(x - 1, y + 1) && world->getElementAtPosition(x - 1, y + 1)->type != ElementType::SAND)
         {
-            world->setElementAtPosition<Sand>(x - 1, y + 1);
-            world->setElementAtPosition<Empty>(x, y);
-            x--;
-            y++;
-            return;
+
+            moveAndSwap(x - 1, y + 1);
         }
 
-        if (world->inBounds(x + 1, y + 1) &&  world->getElementAtPosition(x + 1, y + 1)->type == ElementType::EMPTY)
+        else if (world->inBounds(x + 1, y + 1) &&  world->getElementAtPosition(x + 1, y + 1)->type != ElementType::SAND)
         {
-            world->setElementAtPosition<Sand>(x + 1, y + 1);
-            world->setElementAtPosition<Empty>(x, y);
-            x++;
-            y++;
-            return;
+            moveAndSwap(x + 1, y + 1);
         }
     }
 };
