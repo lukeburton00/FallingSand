@@ -7,37 +7,46 @@ World::World(int width, int height)
 {
     this->width = width;
     this->height = height;
-    m_world = std::vector<std::vector<std::shared_ptr<Element>> >(width, std::vector<std::shared_ptr<Element>>(height));
-    m_buffer = std::vector<std::vector<std::shared_ptr<Element>> >(width, std::vector<std::shared_ptr<Element>>(height));
+    m_world = std::vector<std::vector<Element*> >(width, std::vector<Element*>(height));
 
     for (int i = 0; i < m_world.size(); ++i)
     {
         for (int j = 0; j < m_world[i].size(); ++j)
         {
-            m_world.at(i).at(j) = std::make_shared<Empty>(i, j, this);
+            m_world[i][j] = new Empty(i, j, this);
         }
     }
-
-    m_buffer = m_world;
 }
 
 World::~World()
 {
-    // for (int i = 0; i < m_world.size(); ++i)
-    // {
-    //     for (int j = 0; j < m_world[i].size(); ++j)
-    //     {
-    //         if (m_world[i][j]->type != ElementType::EMPTY)
-    //         {
-    //             printf(" %d, %d\n", m_world[i][j]->x, m_world[i][j]->y);
-    //         }
-    //     }
-    // }
+    for (int i = 0; i < m_world.size(); ++i)
+    {
+        for (int j = 0; j < m_world[i].size(); ++j)
+        {
+            delete m_world[i][j];
+        }
+    }
 }
 
-std::shared_ptr<Element> World::getElementAtPosition(int x, int y)
+Element* World::getElementAtPosition(int x, int y)
 {
-    return m_world.at(x).at(y);
+    return m_world[x][y];
+}
+
+void World::setElementAtPosition(int x, int y, Element* element)
+    {
+        if (inBounds(x, y))
+        {
+            m_world[x][y] = element;
+        }
+    }
+
+bool World::inBounds(int x, int y)
+{
+    if (x < 0 || y < 0 || x >= width || y >= height) return false;
+
+    return true;
 }
 
 void World::tickAllElements()
@@ -46,12 +55,20 @@ void World::tickAllElements()
     {
         for (int j = 0; j < m_world[i].size(); ++j)
         {
-            if (m_world[i][j]->type != ElementType::EMPTY)
+            m_world[i][j]->visited = false;
+        }
+    }
+
+    for (int i = 0; i < m_world.size(); ++i)
+    {
+        for (int j = 0; j < m_world[i].size(); ++j)
+        {
+            if (!(m_world[i][j]->visited))
             {
+                m_world[i][j]->visited = true;
                 m_world[i][j]->tick();
             }
         }
     }
-    m_world = m_buffer;
 }
 
