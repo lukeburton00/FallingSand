@@ -13,3 +13,13 @@ You can compile and run the project for yourself using CMake as long as you have
 - run 'cmake ..' with any desired flags
 - run 'cmake --build .'
 - finally, run the generated executable.
+
+
+### Controls:
+Pressing a key will spawn the corresponding element at the mouse position:
+- W for Water
+- S for Sand
+- L for Lava
+
+
+Stone and steam aren't included in spawnable elmenents because they are by-products of elements reacting to one another.
