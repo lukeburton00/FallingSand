@@ -6,7 +6,8 @@ This project is currently a simple prototype of a falling sand game, with plans 
 Most of the present features are either work-in-progress or placeholder, and as such will be improved upon or replaced in the future.
 
 
-You can run the project for yourself as long as you have SDL2 installed where CMake can find it. Simply follow these steps:
+You can compile and run the project for yourself using CMake as long as you have SDL2 installed where CMake can find it:
+
 - Clone the project
 - Make a 'build' directory inside the cloned repository
 - run 'cmake ..' with any desired flags
