@@ -17,6 +17,7 @@ private:
     SDLRenderer renderer;
     World* world;
     bool isRunning;
+    float cellScaleX, cellScaleY;
 
     void run();
     void processInput();

@@ -7,15 +7,18 @@
 
 Game::Game()
 {
-    int width = 800;
-    int height = 600;
+    int width = 768;
+    int height = 768;
     const char * title = "Sand";
     Uint64 flags = SDL_WINDOW_RESIZABLE;
 
     window.create(width, height, title, flags);
     renderer.init(window.getWindow());
 
-    world = new World(80, 60);
+    world = new World(256, 256);
+
+    cellScaleX = width / world->width;
+    cellScaleY = height / world->height;
 }
 
 Game::~Game()
@@ -50,8 +53,8 @@ void Game::processInput()
 
 void Game::update()
 {
-    int mouseX = Input::mousePositionX / 10;
-    int mouseY = Input::mousePositionY / 10;
+    int mouseX = Input::mousePositionX / cellScaleX;
+    int mouseY = Input::mousePositionY / cellScaleY;
 
     if (Input::isLeftMouseButtonDown())
     {
@@ -60,9 +63,8 @@ void Game::update()
 
     if (Input::isRightMouseButtonDown())
     {
-        world->setElementAtPosition<Empty>(mouseX, mouseY);
+        world->setElementAtPosition<Water>(mouseX, mouseY);
     }
-
     world->tickAllElements();
 }
 
@@ -78,7 +80,12 @@ void Game::render()
 
             if (element->type == ElementType::SAND)
             {
-                renderer.drawRect(element->x * 10, element->y * 10, 10, 10, 255,255,0,255);  
+                renderer.drawRect(element->x * cellScaleX, element->y * cellScaleY, cellScaleX, cellScaleY, 255,255,0,255);  
+            }
+
+            else if (element->type == ElementType::WATER)
+            {
+                renderer.drawRect(element->x * cellScaleX, element->y * cellScaleY, cellScaleX, cellScaleY, 0,0,255,255);  
             }
         }
     }
