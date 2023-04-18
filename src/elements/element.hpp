@@ -1,13 +1,17 @@
 #pragma once
 
-#include <memory>
 #include "world/world.hpp"
+
+#include <memory>
 
 enum class ElementType
 {
     EMPTY = 1,
     SAND = 2,
-    WATER = 3
+    WATER = 3,
+    STONE = 4,
+    LAVA = 5,
+    STEAM = 6
 };
 
 class Element
