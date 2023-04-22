@@ -10,6 +10,7 @@ public:
     Empty(int x, int y, World* world) : Element(x, y, world)
     {
         type = ElementType::EMPTY;
+        density = 0.0f;
     }
 
     void tick() override{}

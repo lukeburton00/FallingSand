@@ -4,24 +4,15 @@
 
 #include <memory>
 
-enum class ElementType
-{
-    EMPTY = 1,
-    SAND = 2,
-    WATER = 3,
-    STONE = 4,
-    LAVA = 5,
-    STEAM = 6
-};
-
 class Element
 {
 
 public:
     int x, y;
     int id;
+    float density;
     bool visited;
-    ElementType type;
+    ElementType type{};
 
     Element(int x, int y, World* world)
     {
@@ -45,7 +36,6 @@ public:
             this->x = x;
             this->y = y;
         }
-
     }
 
     virtual ~Element() {}

@@ -13,6 +13,7 @@ public:
     Water(int x, int y, World* world) : Liquid(x, y, world)
     {
         type = ElementType::WATER;
+        density = 0.4f;
     }
 
     void tick() override
@@ -25,12 +26,11 @@ public:
             {
                 case ElementType::LAVA:
                 {
-                    world->setElementAtPosition<Steam>(x, y - 1);
-                    world->setElementAtPosition<Empty>(element->x, element->y);
-                    world->setElementAtPosition<Stone>(x, y);
+                    world->createElementAtPosition(ElementType::STEAM, x, y - 1);
+                    world->createElementAtPosition(ElementType::STONE, element->x, element->y);
+                    world->createElementAtPosition(ElementType::EMPTY, x, y);
                     break;
                 }
-
                 
                 case ElementType::EMPTY:
                 {

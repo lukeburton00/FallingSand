@@ -13,6 +13,7 @@ public:
     Lava(int x, int y, World* world) : Liquid(x, y, world)
     {
         type = ElementType::LAVA;
+        density = 0.5f;
     }
 
     void tick() override
@@ -25,9 +26,9 @@ public:
             {
                 case ElementType::WATER:
                 {
-                    world->setElementAtPosition<Steam>(x, y - 1);
-                    world->setElementAtPosition<Stone>(element->x, element->y);
-                    world->setElementAtPosition<Empty>(x, y);
+                    world->createElementAtPosition(ElementType::STEAM, x, y - 1);
+                    world->createElementAtPosition(ElementType::STONE, element->x, element->y);
+                    world->createElementAtPosition(ElementType::EMPTY, x, y);
 
                     break;
                 }
@@ -50,27 +51,27 @@ public:
     {
         Element* element = nullptr;
 
-        if (world->inBounds(x, y + 1) && (world->getElementAtPosition(x, y + 1)->type == ElementType::EMPTY || world->getElementAtPosition(x, y + 1)->type == ElementType::WATER))
+        if (world->inBounds(x, y + 1) && (world->getElementAtPosition(x, y + 1)->density < density))
         {
             element = world->getElementAtPosition(x, y + 1);
         }
 
-        else if (world->inBounds(x - 1, y + 1) && (world->getElementAtPosition(x - 1, y + 1)->type == ElementType::EMPTY || world->getElementAtPosition(x - 1, y + 1)->type == ElementType::WATER))
+        else if (world->inBounds(x - 1, y + 1) && (world->getElementAtPosition(x - 1, y + 1)->density < density))
         {
             element = world->getElementAtPosition(x - 1, y + 1);
         }
 
-        else if (world->inBounds(x + 1, y + 1) && (world->getElementAtPosition(x + 1, y + 1)->type == ElementType::EMPTY || world->getElementAtPosition(x + 1, y + 1)->type == ElementType::WATER))
+        else if (world->inBounds(x + 1, y + 1) && (world->getElementAtPosition(x + 1, y + 1)->density < density))
         {
             element = world->getElementAtPosition(x + 1, y + 1);
         }
 
-        else if (world->inBounds(x + 1, y) && (world->getElementAtPosition(x + 1, y)->type == ElementType::EMPTY || world->getElementAtPosition(x + 1, y)->type == ElementType::WATER))
+        else if (world->inBounds(x + 1, y) && (world->getElementAtPosition(x + 1, y)->density < density))
         {
             element = world->getElementAtPosition(x + 1, y);
         }
 
-        else if (world->inBounds(x - 1, y) && (world->getElementAtPosition(x - 1, y)->type == ElementType::EMPTY || world->getElementAtPosition(x - 1, y)->type == ElementType::WATER))
+        else if (world->inBounds(x - 1, y) && (world->getElementAtPosition(x - 1, y)->density < density))
         {
             element = world->getElementAtPosition(x - 1, y);
         }
