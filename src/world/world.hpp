@@ -3,7 +3,18 @@
 #include <vector>
 #include <iostream>
 
+enum class ElementType : int
+{
+    EMPTY,
+    SAND,
+    WATER,
+    STONE,
+    LAVA,
+    STEAM
+};
+
 class Element;
+class ElementFactory;
 class World
 {
 public:
@@ -13,22 +24,18 @@ public:
     ~World();
 
     Element* getElementAtPosition(int x, int y);
-    void setElementAtPosition(int x, int y, Element* element);
 
-    template <typename T>
-    void setElementAtPosition(int x, int y)
-    {
-        if (inBounds(x, y))
-        {
-            delete m_world[x][y];
-            m_world[x][y] = new T(x, y, this);
-        }
-    }
+    void setElementAtPosition(int x, int y, Element* element);
+    void createElementAtPosition(ElementType type, int x, int y);
 
     void tickAllElements();
-
     bool inBounds(int x, int y);
 
 private:
     std::vector<std::vector<Element*> > m_world;
+    ElementFactory* m_factory;
+
+    void setPreviousVisitedToFalse(int x, int y);
+    void tickElementIfNotVisited(int x, int y);
+
 };
