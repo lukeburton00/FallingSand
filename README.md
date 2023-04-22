@@ -1,9 +1,8 @@
 # Falling Sand
 
-This project is currently a simple prototype of a falling sand game, with plans to extend the simulation to include more features including a larger collection of element types.
+This project is a simple prototype of a falling sand game.
 
-
-Most of the present features are either work-in-progress or placeholder, and as such will be improved upon or replaced in the future.
+Most of the present features are either work-in-progress or placeholder. I might come back and expand it, but for now I've moved on to other things.
 
 
 You can compile and run the project for yourself using CMake as long as you have SDL2 installed where CMake can find it:
