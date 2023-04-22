@@ -11,15 +11,15 @@
 
 Game::Game()
 {
-    int width = 800;
-    int height = 800;
+    int width = 768;
+    int height = 768;
     const char * title = "Sand";
-    Uint64 flags = SDL_WINDOW_RESIZABLE;
+    Uint32 flags = SDL_WINDOW_RESIZABLE;
 
     window.create(width, height, title, flags);
     renderer.init(window.getWindow());
 
-    world = new World(400, 400);
+    world = std::make_unique<World>(256, 256);
 
     cellScaleX = width / world->width;
     cellScaleY = height / world->height;
@@ -27,7 +27,7 @@ Game::Game()
 
 Game::~Game()
 {
-    delete world;
+
 }
 
 void Game::start()
@@ -62,41 +62,17 @@ void Game::update()
 
     if (Input::isKeyDown("S"))
     {
-        world->setElementAtPosition<Sand>(mouseX, mouseY);
-        world->setElementAtPosition<Sand>(mouseX + 1, mouseY);
-        world->setElementAtPosition<Sand>(mouseX, mouseY + 1);
-        world->setElementAtPosition<Sand>(mouseX + 1, mouseY + 1);
-        world->setElementAtPosition<Sand>(mouseX - 1, mouseY);
-        world->setElementAtPosition<Sand>(mouseX, mouseY - 1);
-        world->setElementAtPosition<Sand>(mouseX - 1, mouseY - 1);
-        world->setElementAtPosition<Sand>(mouseX + 1, mouseY - 1);
-        world->setElementAtPosition<Sand>(mouseX - 1, mouseY + 1);
+        world->createElementAtPosition(ElementType::SAND, mouseX, mouseY);
     }
 
     if (Input::isKeyDown("W"))
     {
-        world->setElementAtPosition<Water>(mouseX, mouseY);
-        world->setElementAtPosition<Water>(mouseX + 1, mouseY);
-        world->setElementAtPosition<Water>(mouseX, mouseY + 1);
-        world->setElementAtPosition<Water>(mouseX + 1, mouseY + 1);
-        world->setElementAtPosition<Water>(mouseX - 1, mouseY);
-        world->setElementAtPosition<Water>(mouseX, mouseY - 1);
-        world->setElementAtPosition<Water>(mouseX - 1, mouseY - 1);
-        world->setElementAtPosition<Water>(mouseX + 1, mouseY - 1);
-        world->setElementAtPosition<Water>(mouseX - 1, mouseY + 1);
+        world->createElementAtPosition(ElementType::WATER, mouseX, mouseY);
     }
 
     if (Input::isKeyDown("L"))
     {
-        world->setElementAtPosition<Lava>(mouseX, mouseY);
-        world->setElementAtPosition<Lava>(mouseX + 1, mouseY);
-        world->setElementAtPosition<Lava>(mouseX, mouseY + 1);
-        world->setElementAtPosition<Lava>(mouseX + 1, mouseY + 1);
-        world->setElementAtPosition<Lava>(mouseX - 1, mouseY);
-        world->setElementAtPosition<Lava>(mouseX, mouseY - 1);
-        world->setElementAtPosition<Lava>(mouseX - 1, mouseY - 1);
-        world->setElementAtPosition<Lava>(mouseX + 1, mouseY - 1);
-        world->setElementAtPosition<Lava>(mouseX - 1, mouseY + 1);
+        world->createElementAtPosition(ElementType::LAVA, mouseX, mouseY);
     }
 
     world->tickAllElements();

@@ -15,7 +15,7 @@ public:
 private:
     Window window;
     SDLRenderer renderer;
-    World* world;
+    std::unique_ptr<World> world;
     bool isRunning;
     float cellScaleX, cellScaleY;
 
